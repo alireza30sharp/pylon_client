@@ -1,0 +1,30 @@
+<ion-content>
+  <div class="position-relative m-0 p-0 mb-2">
+    <swiper-container  class="mySwiper"
+    pagination="true" centeredSlides="true" grabCursor="true">
+      <swiper-slide class="swiper-slide">
+        <ion-text color="light">
+          <img src="/img/blog/wp-img/ionicacademy.com-wp-content-uploads-2019-10-async-code-course.webp" />
+          <h1>Hey there!</h1>
+          <p>This is an epic app because...</p>
+          <ion-button (click)="next()" fill="outline" color="light">Next</ion-button>
+        </ion-text>
+
+
+      </swiper-slide>
+      <swiper-slide class="swiper-slide">
+        <ion-text color="light">
+          <img
+            src="/img/blog/wp-img/ionicacademy.com-wp-content-uploads-2020-06-ionic-everywhere-course.webp"
+          />
+          <h1>It's Ionic!</h1>
+          <p>... it shows all the basics you need!</p>
+          <ion-button (click)="start()" fill="outline" color="light">Start</ion-button>
+        </ion-text>
+
+      </swiper-slide>
+    </swiper-container>
+    <!-- <app-swiper [items]="featured" [options]="catSlideOpts"></app-swiper> -->
+
+  </div>
+</ion-content>

@@ -1,0 +1,21 @@
+<swiper-container
+style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="mySwiper" fmSwiper [config]="options" init="false" >
+    <swiper-slide class="swiper-slide" *ngFor="let cat of items">
+         <img [src]="cat.img">
+         <div class="featured-slide" *ngIf="cat.showInfo"  (click)="navigate(cat)">
+
+             <div class="info" >
+                <ion-text color="dark"><b>{{cat.title }}</b></ion-text>
+                <span>
+                  <ion-icon name="star" color="secondary"></ion-icon>
+                  <ion-text color="secondary"> {{ cat.rating }} </ion-text>{{ cat.ratings }}
+                </span>
+                <span>
+                  <ion-icon name="location-outline"></ion-icon> {{ cat.distance }}
+                </span>
+              </div>
+         </div>
+
+
+        </swiper-slide>
+</swiper-container>
