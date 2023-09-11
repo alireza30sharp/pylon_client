@@ -23,7 +23,11 @@ export class Tab1Page {
         console.log(this.authService.authorizationHeader())
     }
     hasValidIdToken() {
-		console.log( this.authService.hasValidIdToken())
+		console.log(this.authService.hasValidIdToken())
 
     }
+	getAccessTokenExpiration(){
+		console.log(this.authService.getAccessTokenExpiration())
+
+	}
 }

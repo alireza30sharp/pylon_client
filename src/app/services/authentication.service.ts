@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, tap, switchMap, filter } from 'rxjs/operators';
 import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authPasswordFlowConfig } from './auth-password-flow.config';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 
 const TOKEN_KEY = 'my-token';
 
@@ -19,13 +20,13 @@ export class AuthenticationService {
 	userProfile: object;
 	constructor(private http: HttpClient, private oauthService: OAuthService) {
 		//	this.loadToken();
-
+		this.oauthService.tokenValidationHandler = new JwksValidationHandler();
 		this.oauthService.configure(authPasswordFlowConfig);
-		this.oauthService.tryLogin();
+		//this.oauthService.tryLogin();
 		this.oauthService.events
 			.pipe(filter(e => ["token_received"].includes(e.type)))
 			.subscribe(e => {
-				debugger
+
 				this.isAuthenticated.next(true);
 
 				this.oauthService.loadUserProfile().then((userProfile) => {
@@ -33,6 +34,14 @@ export class AuthenticationService {
 					console.table(userProfile);
 					this.userProfileSubject$.next(userProfile)
 				});
+
+			});
+
+		this.oauthService.events
+			.pipe(filter(e => ["token_expires"].includes(e.type)))
+			.subscribe(e => {
+
+				console.debug(e + 'Your session has been terminated!');
 
 			});
 
@@ -51,9 +60,10 @@ export class AuthenticationService {
 			.fetchTokenUsingPasswordFlow(
 				credentials.email,
 				credentials.password
+
 			)
 			.then(() => {
-				this.silentRefresh()
+				//	this.silentRefresh()
 				return from([true]);
 			})
 			.catch((err) => {
@@ -80,13 +90,16 @@ export class AuthenticationService {
 		return this.oauthService.getIdentityClaims()
 	}
 	silentRefresh() {
-		this.oauthService.setupAutomaticSilentRefresh();
+		this.oauthService.refreshToken();
 	}
 	authorizationHeader() {
 		return this.oauthService.authorizationHeader()
 	}
 	hasValidIdToken() {
-		return this.oauthService.hasValidIdToken()
-
+		return this.oauthService.hasValidAccessToken()
 	}
+	getAccessTokenExpiration() {
+		return this.oauthService.getAccessTokenExpiration()
+	}
+
 }
