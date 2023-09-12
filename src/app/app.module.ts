@@ -27,7 +27,7 @@ export function storageFactory(): OAuthStorage {
 		})
 	],
 	providers: [
-		//{ provide: ValidationHandler, useClass: JwksValidationHandler },
+		{ provide: ValidationHandler, useClass: JwksValidationHandler },
 		//{ provide: OAuthStorage, useFactory: storageFactory },
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
 	],

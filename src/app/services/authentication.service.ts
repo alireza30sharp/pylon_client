@@ -20,20 +20,25 @@ export class AuthenticationService {
 	userProfile: object;
 	constructor(private http: HttpClient, private oauthService: OAuthService) {
 		//	this.loadToken();
-		this.oauthService.tokenValidationHandler = new JwksValidationHandler();
+
 		this.oauthService.configure(authPasswordFlowConfig);
-		//this.oauthService.tryLogin();
+		this.oauthService.tryLoginCodeFlow();
+		// this.oauthService.customQueryParams = {
+		// 	'email': '4711',
+		// 	'password':
+			
+		// };
+		//this.oauthService.tryLogin()
+		this.oauthService.events.subscribe(e => {
+			console.log(e.type + " x")
+		})
 		this.oauthService.events
 			.pipe(filter(e => ["token_received"].includes(e.type)))
 			.subscribe(e => {
 
 				this.isAuthenticated.next(true);
 
-				this.oauthService.loadUserProfile().then((userProfile) => {
-
-					console.table(userProfile);
-					this.userProfileSubject$.next(userProfile)
-				});
+			
 
 			});
 
@@ -44,7 +49,7 @@ export class AuthenticationService {
 				console.debug(e + 'Your session has been terminated!');
 
 			});
-
+		
 	}
 
 	async loadToken() {
@@ -55,21 +60,19 @@ export class AuthenticationService {
 		this.oauthService.loadUserProfile().then((up) => (this.userProfile = up));
 	}
 	login(credentials: { email: any; password: any }): Promise<any> {
+		return	this.oauthService.fetchTokenUsingPasswordFlowAndLoadUserProfile(credentials.email,
+			credentials.password).then((resp) => {
+				console.table(resp)
+			// Loading data about the user
+			//return this.oauthService.loadUserProfile();
+			// Using the loaded user data
+			let claims = this.oauthService.getIdentityClaims();
+			if (claims) console.debug('given_name', claims.given_name);
+			this.silentRefresh()
+		return from([true]);
+	  
+	  });
 
-		return this.oauthService
-			.fetchTokenUsingPasswordFlow(
-				credentials.email,
-				credentials.password
-
-			)
-			.then(() => {
-				//	this.silentRefresh()
-				return from([true]);
-			})
-			.catch((err) => {
-				return from(err);
-
-			});
 		// return this.http.post(`https://reqres.in/api/login`, credentials).pipe(
 		// 	map((data: any) => data.token),
 		// 	switchMap((token) => {
@@ -90,7 +93,12 @@ export class AuthenticationService {
 		return this.oauthService.getIdentityClaims()
 	}
 	silentRefresh() {
-		this.oauthService.refreshToken();
+	// 	this
+    // .oauthService
+    // .silentRefresh({params:1212})
+    // .then(info => console.debug('refresh ok', info))
+    // .catch(err => console.error('refresh error', err));
+    this.oauthService.setupAutomaticSilentRefresh();
 	}
 	authorizationHeader() {
 		return this.oauthService.authorizationHeader()

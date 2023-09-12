@@ -31,7 +31,8 @@ export class LoginPage implements OnInit {
 		const loading = await this.loadingController.create();
 		await loading.present();
 
-		this.authService.login(this.credentials.value).then(() => {
+		this.authService.login(this.credentials.value)
+		.then(() => {
 			loading.dismiss();
 			this.router.navigateByUrl('/tabs', { replaceUrl: true });
 
