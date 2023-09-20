@@ -5,7 +5,7 @@ import { BehaviorSubject, from, Observable, Subject } from 'rxjs';
 import { Preferences } from '@capacitor/preferences';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authPasswordFlowConfig } from './auth-password-flow.config';
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+// import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 
 const TOKEN_KEY = 'my-token';
 
@@ -98,13 +98,17 @@ export class AuthenticationService {
     // .silentRefresh({params:1212})
     // .then(info => console.debug('refresh ok', info))
     // .catch(err => console.error('refresh error', err));
-    this.oauthService.setupAutomaticSilentRefresh();
+    this.oauthService.setupAutomaticSilentRefresh({p:12},'access_token');
 	}
 	authorizationHeader() {
 		return this.oauthService.authorizationHeader()
 	}
 	hasValidIdToken() {
+		return this.oauthService.hasValidIdToken()
+	}
+	hasValidAccessToken(){
 		return this.oauthService.hasValidAccessToken()
+
 	}
 	getAccessTokenExpiration() {
 		return this.oauthService.getAccessTokenExpiration()

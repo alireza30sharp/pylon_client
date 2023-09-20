@@ -12,7 +12,7 @@ export const authPasswordFlowConfig: AuthConfig = {
   userinfoEndpoint: "http://localhost:5296/api/account",
   tokenEndpoint: "http://localhost:5296/api/account",
   //clientId: "spa",
-  dummyClientSecret: "G6ZjGyuKnKabrdrPf27oj7RQHWl2kxl6",
+  //dummyClientSecret: "G6ZjGyuKnKabrdrPf27oj7RQHWl2kxl6",
   strictDiscoveryDocumentValidation: false,
   //useSilentRefresh:"http://localhost:5296/api/account/refresh-user-token",
   //loginUrl: "http://localhost:8100/login",

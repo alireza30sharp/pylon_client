@@ -7,7 +7,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { OAuthModule, OAuthStorage, ValidationHandler } from 'angular-oauth2-oidc';
-import { JwksValidationHandler, } from 'angular-oauth2-oidc-jwks';
+//import { JwksValidationHandler, } from 'angular-oauth2-oidc-jwks';
 
 import { HttpClientModule } from '@angular/common/http';
 import { register } from 'swiper/element/bundle';
@@ -27,7 +27,7 @@ export function storageFactory(): OAuthStorage {
 		})
 	],
 	providers: [
-		{ provide: ValidationHandler, useClass: JwksValidationHandler },
+		//{ provide: ValidationHandler, useClass: JwksValidationHandler },
 		//{ provide: OAuthStorage, useFactory: storageFactory },
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
 	],

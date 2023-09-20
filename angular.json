@@ -20,7 +20,6 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "src/silent-refresh.html",
               {
                 "glob": "**/*",
                 "input": "src/assets",
@@ -31,7 +30,6 @@
                 "input": "node_modules/ionicons/dist/ionicons/svg",
                 "output": "./svg"
               }
-
             ],
             "styles": ["src/theme/variables.scss", "src/global.scss"],
             "scripts": []
